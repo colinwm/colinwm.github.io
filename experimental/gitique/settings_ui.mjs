@@ -125,12 +125,14 @@ token: this.refs.token.value,
 window.localStorage.removeItem('user')
 window.localStorage.removeItem('pulls')
 window.localStorage.removeItem('merged')
+window.location.reload();
 }
 
 function remove(index) {
 this.state.repos.splice(index, 1)
 this.setState({repos: this.state.repos})
 saveRepos()
+window.location.reload();
 }
 
 function addRepo() {
@@ -138,6 +140,7 @@ this.state.repos.push(this.refs.add_repo.value);
 this.setState({repos: this.state.repos})
 this.refs.add_repo.value = ""
 saveRepos()
+window.location.reload();
 }
 
 const saveRepos = () => {
@@ -153,7 +156,7 @@ __el0.__rawAttributes ||= {}
 
 const __el1 = document.createElement('span');
 __el1.__rawAttributes ||= {}
-__el1.innerHTML = `token`;
+__el1.innerHTML = `github PAT token`;
 
             if(true) {
                 __el0.appendChild(__el1);
@@ -174,13 +177,12 @@ this.setElementAttribute(__el2, 'value', this.state.token);
 const __el3 = document.createElement('p');
 __el3.__rawAttributes ||= {}
 
-const __el4 = document.createElement('button');
+const __el4 = document.createElement('i');
 __el4.__rawAttributes ||= {}
-__el4.addEventListener('click', save.bind(this));
 
 const __el5 = document.createElement('span');
 __el5.__rawAttributes ||= {}
-__el5.innerHTML = `save`;
+__el5.innerHTML = `Note:`;
 
             if(true) {
                 __el4.appendChild(__el5);
@@ -189,116 +191,175 @@ __el5.innerHTML = `save`;
             if(true) {
                 __el3.appendChild(__el4);
             }
+            const __el6 = document.createElement('span');
+__el6.__rawAttributes ||= {}
+__el6.innerHTML = `&nbsp; give repos and user access to this PAT`;
+
+            if(true) {
+                __el3.appendChild(__el6);
+            }
             
             if(true) {
                 this.shadow.appendChild(__el3);
             }
             
-const __el6 = document.createElement('p');
-__el6.__rawAttributes ||= {}
-
-const __el7 = document.createElement('span');
+const __el7 = document.createElement('p');
 __el7.__rawAttributes ||= {}
-__el7.innerHTML = `repos`;
 
-            if(true) {
-                __el6.appendChild(__el7);
-            }
-            
-            if(true) {
-                this.shadow.appendChild(__el6);
-            }
-            
-const __el8 = document.createElement('ul');
+const __el8 = document.createElement('button');
 __el8.__rawAttributes ||= {}
+__el8.addEventListener('click', save.bind(this));
 
-const __el9_elements = {};for(const __el9__key of Object.keys(this.state.repos)) {
-__el9_elements[__el9__key] = {};
-const item = this.state.repos[__el9__key];
-const key = __el9__key;
-const __el10 = document.createElement('li');
-__el9_elements[__el9__key].__el10 = __el10;
-__el9_elements[__el9__key].__el10.__rawAttributes ||= {}
+const __el9 = document.createElement('span');
+__el9.__rawAttributes ||= {}
+__el9.innerHTML = `save`;
+
+            if(true) {
+                __el8.appendChild(__el9);
+            }
+            
+            if(true) {
+                __el7.appendChild(__el8);
+            }
+            
+            if(true) {
+                this.shadow.appendChild(__el7);
+            }
+            
+const __el10 = document.createElement('p');
+__el10.__rawAttributes ||= {}
 
 const __el11 = document.createElement('span');
-__el9_elements[__el9__key].__el11 = __el11;
-__el9_elements[__el9__key].__el11.__rawAttributes ||= {}
-__el11.innerHTML = `${item} &nbsp;`;
+__el11.__rawAttributes ||= {}
+__el11.innerHTML = `repos`;
 
             if(true) {
-                __el10.appendChild(__el9_elements[__el9__key].__el11);
-            }
-            const __el12 = document.createElement('a');
-__el9_elements[__el9__key].__el12 = __el12;
-__el9_elements[__el9__key].__el12.__rawAttributes ||= {}
-this.setElementAttribute(__el9_elements[__el9__key].__el12, 'href', `#`);
-__el9_elements[__el9__key].__el12.addEventListener('click', remove.bind(this, key).bind(this));
-
-const __el13 = document.createElement('span');
-__el9_elements[__el9__key].__el13 = __el13;
-__el9_elements[__el9__key].__el13.__rawAttributes ||= {}
-__el13.innerHTML = `(remove)`;
-
-            if(true) {
-                __el12.appendChild(__el9_elements[__el9__key].__el13);
+                __el10.appendChild(__el11);
             }
             
             if(true) {
-                __el10.appendChild(__el9_elements[__el9__key].__el12);
+                this.shadow.appendChild(__el10);
             }
             
-            if(true) {
-                __el8.appendChild(__el9_elements[__el9__key].__el10);
-            }
-            }
+const __el12 = document.createElement('ul');
+__el12.__rawAttributes ||= {}
 
-            if(true) {
-                this.shadow.appendChild(__el8);
-            }
-            
-const __el14 = document.createElement('p');
-__el14.__rawAttributes ||= {}
+const __el13_elements = {};for(const __el13__key of Object.keys(this.state.repos)) {
+__el13_elements[__el13__key] = {};
+const item = this.state.repos[__el13__key];
+const key = __el13__key;
+const __el14 = document.createElement('li');
+__el13_elements[__el13__key].__el14 = __el14;
+__el13_elements[__el13__key].__el14.__rawAttributes ||= {}
 
 const __el15 = document.createElement('span');
-__el15.__rawAttributes ||= {}
-__el15.innerHTML = `add repo`;
+__el13_elements[__el13__key].__el15 = __el15;
+__el13_elements[__el13__key].__el15.__rawAttributes ||= {}
+__el15.innerHTML = `${item} &nbsp;`;
 
             if(true) {
-                __el14.appendChild(__el15);
+                __el14.appendChild(__el13_elements[__el13__key].__el15);
             }
-            const __el16 = document.createElement('input');
-__el16.__rawAttributes ||= {}
-this.setElementAttribute(__el16, 'type', `text`);
+            const __el16 = document.createElement('a');
+__el13_elements[__el13__key].__el16 = __el16;
+__el13_elements[__el13__key].__el16.__rawAttributes ||= {}
+this.setElementAttribute(__el13_elements[__el13__key].__el16, 'href', `#`);
+__el13_elements[__el13__key].__el16.addEventListener('click', remove.bind(this, key).bind(this));
+
+const __el17 = document.createElement('span');
+__el13_elements[__el13__key].__el17 = __el17;
+__el13_elements[__el13__key].__el17.__rawAttributes ||= {}
+__el17.innerHTML = `(remove)`;
 
             if(true) {
-                __el14.appendChild(__el16);
+                __el16.appendChild(__el13_elements[__el13__key].__el17);
             }
             
             if(true) {
-                this.shadow.appendChild(__el14);
+                __el14.appendChild(__el13_elements[__el13__key].__el16);
             }
             
-const __el17 = document.createElement('p');
-__el17.__rawAttributes ||= {}
+            if(true) {
+                __el12.appendChild(__el13_elements[__el13__key].__el14);
+            }
+            }
 
-const __el18 = document.createElement('button');
+            if(true) {
+                this.shadow.appendChild(__el12);
+            }
+            
+const __el18 = document.createElement('p');
 __el18.__rawAttributes ||= {}
-__el18.addEventListener('click', addRepo.bind(this));
 
 const __el19 = document.createElement('span');
 __el19.__rawAttributes ||= {}
-__el19.innerHTML = `add`;
+__el19.innerHTML = `add repo`;
 
             if(true) {
                 __el18.appendChild(__el19);
             }
-            
+            const __el20 = document.createElement('input');
+__el20.__rawAttributes ||= {}
+this.setElementAttribute(__el20, 'type', `text`);
+
             if(true) {
-                __el17.appendChild(__el18);
+                __el18.appendChild(__el20);
             }
             
             if(true) {
-                this.shadow.appendChild(__el17);
+                this.shadow.appendChild(__el18);
+            }
+            
+const __el21 = document.createElement('p');
+__el21.__rawAttributes ||= {}
+
+const __el22 = document.createElement('i');
+__el22.__rawAttributes ||= {}
+
+const __el23 = document.createElement('span');
+__el23.__rawAttributes ||= {}
+__el23.innerHTML = `Note:`;
+
+            if(true) {
+                __el22.appendChild(__el23);
+            }
+            
+            if(true) {
+                __el21.appendChild(__el22);
+            }
+            const __el24 = document.createElement('span');
+__el24.__rawAttributes ||= {}
+__el24.innerHTML = `&nbsp; add any repos you'd like to track`;
+
+            if(true) {
+                __el21.appendChild(__el24);
+            }
+            
+            if(true) {
+                this.shadow.appendChild(__el21);
+            }
+            
+const __el25 = document.createElement('p');
+__el25.__rawAttributes ||= {}
+
+const __el26 = document.createElement('button');
+__el26.__rawAttributes ||= {}
+__el26.addEventListener('click', addRepo.bind(this));
+
+const __el27 = document.createElement('span');
+__el27.__rawAttributes ||= {}
+__el27.innerHTML = `add`;
+
+            if(true) {
+                __el26.appendChild(__el27);
+            }
+            
+            if(true) {
+                __el25.appendChild(__el26);
+            }
+            
+            if(true) {
+                this.shadow.appendChild(__el25);
             }
             
 
@@ -314,61 +375,61 @@ __el19.innerHTML = `add`;
             
             case 1:
               
-                    for(const __el9__key of Object.keys(__el9_elements)) {
-                        if(!this.state.repos[__el9__key]) {
-                            __el9_elements[__el9__key].__el10.remove();
+                    for(const __el13__key of Object.keys(__el13_elements)) {
+                        if(!this.state.repos[__el13__key]) {
+                            __el13_elements[__el13__key].__el14.remove();
 
-                            delete __el9_elements[__el9__key];
+                            delete __el13_elements[__el13__key];
                         }
                     }
               break;
             
             case 2:
-              for(const __el9__key of Object.keys(__el9_elements)) {const item = this.state.repos[__el9__key];
-__el9_elements[__el9__key].__el11.innerHTML = `${item} &nbsp;`
+              for(const __el13__key of Object.keys(__el13_elements)) {const item = this.state.repos[__el13__key];
+__el13_elements[__el13__key].__el15.innerHTML = `${item} &nbsp;`
 }
               break;
             
             case 3:
               
-                        for(const __el9__key of Object.keys(this.state.repos)) {
-                            if(!__el9_elements[__el9__key]) {
-                                const key = __el9__key;
-                                const item = this.state.repos[__el9__key];
-                                __el9_elements[__el9__key] = {};
-                                const __el10 = document.createElement('li');
-__el9_elements[__el9__key].__el10 = __el10;
-__el9_elements[__el9__key].__el10.__rawAttributes ||= {}
+                        for(const __el13__key of Object.keys(this.state.repos)) {
+                            if(!__el13_elements[__el13__key]) {
+                                const key = __el13__key;
+                                const item = this.state.repos[__el13__key];
+                                __el13_elements[__el13__key] = {};
+                                const __el14 = document.createElement('li');
+__el13_elements[__el13__key].__el14 = __el14;
+__el13_elements[__el13__key].__el14.__rawAttributes ||= {}
 
-const __el11 = document.createElement('span');
-__el9_elements[__el9__key].__el11 = __el11;
-__el9_elements[__el9__key].__el11.__rawAttributes ||= {}
-__el11.innerHTML = `${item} &nbsp;`;
+const __el15 = document.createElement('span');
+__el13_elements[__el13__key].__el15 = __el15;
+__el13_elements[__el13__key].__el15.__rawAttributes ||= {}
+__el15.innerHTML = `${item} &nbsp;`;
 
             if(true) {
-                __el10.appendChild(__el9_elements[__el9__key].__el11);
+                __el14.appendChild(__el13_elements[__el13__key].__el15);
             }
-            const __el12 = document.createElement('a');
-__el9_elements[__el9__key].__el12 = __el12;
-__el9_elements[__el9__key].__el12.__rawAttributes ||= {}
-this.setElementAttribute(__el9_elements[__el9__key].__el12, 'href', `#`);
-__el9_elements[__el9__key].__el12.addEventListener('click', remove.bind(this, key).bind(this));
+            const __el16 = document.createElement('a');
+__el13_elements[__el13__key].__el16 = __el16;
+__el13_elements[__el13__key].__el16.__rawAttributes ||= {}
+this.setElementAttribute(__el13_elements[__el13__key].__el16, 'href', `#`);
+__el13_elements[__el13__key].__el16.addEventListener('click', remove.bind(this, key).bind(this));
 
-const __el13 = document.createElement('span');
-__el9_elements[__el9__key].__el13 = __el13;
-__el9_elements[__el9__key].__el13.__rawAttributes ||= {}
-__el13.innerHTML = `(remove)`;
+const __el17 = document.createElement('span');
+__el13_elements[__el13__key].__el17 = __el17;
+__el13_elements[__el13__key].__el17.__rawAttributes ||= {}
+__el17.innerHTML = `(remove)`;
 
             if(true) {
-                __el12.appendChild(__el9_elements[__el9__key].__el13);
-            }
-            
-            if(true) {
-                __el10.appendChild(__el9_elements[__el9__key].__el12);
+                __el16.appendChild(__el13_elements[__el13__key].__el17);
             }
             
             if(true) {
-                __el8.appendChild(__el9_elements[__el9__key].__el10);
+                __el14.appendChild(__el13_elements[__el13__key].__el16);
+            }
+            
+            if(true) {
+                __el12.appendChild(__el13_elements[__el13__key].__el14);
             }
             
 
@@ -386,7 +447,7 @@ __el13.innerHTML = `(remove)`;
       
       this.refs.token = __el2;
       
-      this.refs.add_repo = __el16;
+      this.refs.add_repo = __el20;
       
 
       this.initializeStateMappers();
@@ -437,16 +498,16 @@ __el13.innerHTML = `(remove)`;
     triggerRenders(key) {
       switch(key) {
         
+        case 'item':
+           this.render([2]);
+           break;
+        
         case 'this.state.token':
            this.render([0]);
            break;
         
         case 'this.state.repos':
            this.render([1,2,3]);
-           break;
-        
-        case 'item':
-           this.render([2]);
            break;
         
         default:

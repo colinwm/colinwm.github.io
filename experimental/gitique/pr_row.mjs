@@ -1,4 +1,5 @@
 import { getReviewState } from './github.mjs'
+import renderDate from '../../util/js/human_date.mjs'
 
 
 class PrRow extends HTMLElement {
@@ -13,23 +14,35 @@ class PrRow extends HTMLElement {
 }
 
 div.info {
-  min-width: 200px;
-  color: #444;
+  flex-shrink: 0;
+  width: 100px;
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  height: 15px;
+}
+
+div.author {
+  margin-left: 15px;
+  width: 75px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow:hidden;
+  flex-shrink: 0;
 }
 
 div.outer {
+  display: flex;
   height: 15px;
+  overflow: hidden;
 }
 
 div.reviewers {
+  flex-shrink: 1;
   height: 15px;
   display: inline-block;
-  min-width: 200px;
-  max-width: 200px;
+  width: 200px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -43,7 +56,16 @@ div.title {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: 10px;
+  margin-left: 10px;
+}
+
+div.suffix {
+  height: 15px;
+  display: inline-block;
+  overflow: hidden;
+  color: #666;
+  margin-left: 20px;
+  flex-shrink: 10;
 }
 
 span.reviewer {
@@ -59,9 +81,23 @@ a.invisible {
   color: inherit;
   text-decoration: inherit;
 }
+
+@media only screen and (max-width: 1024px) {
+  span.repo_name {
+    display: none;
+  }
+
+  div.info {
+    display:none;
+  }
+
+  div.reviewers {
+    width: 100px;
+  }
+}
 </style>`
 
-          this.props = [];
+          this.props = ['review'];
           this.state = {};
           this.stateMappers = {};
 
@@ -160,9 +196,12 @@ a.invisible {
           setTimeout(this.renderStateDifferences.bind(this), 16);
       }
       
-      // Do something here
+      const attributes = ['review'];
+
 
 function formatUsername(username) {
+if (!username) return username;
+
 if (username.endsWith("[bot]")) {
 return username.slice(0, -5)
 }
@@ -170,11 +209,12 @@ return username.slice(0, 15)
 }
 
 this.state = {
-pr: { user: {} },
+pr: { base: { repo: {} }, user: {} },
+author: "",
 reviewState: [],
-link: "#",
 reviewers: [],
-hasReviewers: false,
+link: "#",
+suffix: "",
 }
 
 this.stateMappers = {
@@ -208,8 +248,16 @@ approved: reviews[reviewer],
 }
 return output
 },
-hasReviewers: (reviewers) => reviewers.length > 0,
 link: (pr) => pr?._links?.html?.href,
+author: (pr) => formatUsername(pr.user.login),
+suffix: (pr) => {
+if (pr.merged_at) {
+return `merged ${renderDate(new Date(pr.updated_at))}`
+} else {
+return `updated ${renderDate(new Date(pr.updated_at))}`
+}
+},
+hasReviewers: (review) => review == "true",
 }
 
 function mergeReviews(a, b) {
@@ -244,8 +292,16 @@ this.setElementAttribute(__el3, 'class', `info`);
 
 const __el4 = document.createElement('span');
 __el4.__rawAttributes ||= {}
-__el4.innerHTML = `#${this.state.pr.number} by ${this.state.pr.user.login}`;
+this.setElementAttribute(__el4, 'class', `repo_name`);
 
+const __el5 = document.createElement('span');
+__el5.__rawAttributes ||= {}
+__el5.innerHTML = `${this.state.pr.base.repo.name}`;
+
+            if(true) {
+                __el4.appendChild(__el5);
+            }
+            
             if(true) {
                 __el3.appendChild(__el4);
             }
@@ -253,50 +309,87 @@ __el4.innerHTML = `#${this.state.pr.number} by ${this.state.pr.user.login}`;
             if(true) {
                 __el2.appendChild(__el3);
             }
-            const __el5 = document.createElement('div');
-__el5.__rawAttributes ||= {}
-this.setElementAttribute(__el5, 'class', `reviewers`);
+            const __el6 = document.createElement('div');
+__el6.__rawAttributes ||= {}
+this.setElementAttribute(__el6, 'class', `author`);
 
-const __el6_elements = {};for(const __el6__key of Object.keys(this.state.reviewers)) {
-__el6_elements[__el6__key] = {};
-const item = this.state.reviewers[__el6__key];
-const key = __el6__key;
 const __el7 = document.createElement('span');
-__el6_elements[__el6__key].__el7 = __el7;
-__el6_elements[__el6__key].__el7.__rawAttributes ||= {}
-this.setElementAttribute(__el6_elements[__el6__key].__el7, 'class', `reviewer ${item.approved}`);
-
-const __el8 = document.createElement('span');
-__el6_elements[__el6__key].__el8 = __el8;
-__el6_elements[__el6__key].__el8.__rawAttributes ||= {}
-__el8.innerHTML = `${item.name}`;
+__el7.__rawAttributes ||= {}
+__el7.innerHTML = `${this.state.author}`;
 
             if(true) {
-                __el7.appendChild(__el6_elements[__el6__key].__el8);
+                __el6.appendChild(__el7);
             }
             
             if(true) {
-                __el5.appendChild(__el6_elements[__el6__key].__el7);
+                __el2.appendChild(__el6);
             }
-            }
+            const __el8 = document.createElement('div');
+__el8.__rawAttributes ||= {}
 
-            if(true) {
-                __el2.appendChild(__el5);
-            }
-            const __el9 = document.createElement('div');
-__el9.__rawAttributes ||= {}
-this.setElementAttribute(__el9, 'class', `title`);
-
-const __el10 = document.createElement('span');
+const __el10 = document.createElement('div');
 __el10.__rawAttributes ||= {}
-__el10.innerHTML = `${this.state.pr.title}`;
+this.setElementAttribute(__el10, 'class', `reviewers`);
+
+const __el11_elements = {};for(const __el11__key of Object.keys(this.state.reviewers)) {
+__el11_elements[__el11__key] = {};
+const item = this.state.reviewers[__el11__key];
+const key = __el11__key;
+const __el12 = document.createElement('span');
+__el11_elements[__el11__key].__el12 = __el12;
+__el11_elements[__el11__key].__el12.__rawAttributes ||= {}
+this.setElementAttribute(__el11_elements[__el11__key].__el12, 'class', `reviewer ${item.approved}`);
+
+const __el13 = document.createElement('span');
+__el11_elements[__el11__key].__el13 = __el13;
+__el11_elements[__el11__key].__el13.__rawAttributes ||= {}
+__el13.innerHTML = `${item.name}`;
 
             if(true) {
-                __el9.appendChild(__el10);
+                __el12.appendChild(__el11_elements[__el11__key].__el13);
             }
             
             if(true) {
-                __el2.appendChild(__el9);
+                __el10.appendChild(__el11_elements[__el11__key].__el12);
+            }
+            }
+
+            if(this.state.hasReviewers) {
+                __el8.appendChild(__el10);
+            }
+            
+            if(true) {
+                __el2.appendChild(__el8);
+            }
+            const __el14 = document.createElement('div');
+__el14.__rawAttributes ||= {}
+this.setElementAttribute(__el14, 'class', `title`);
+
+const __el15 = document.createElement('span');
+__el15.__rawAttributes ||= {}
+__el15.innerHTML = `${this.state.pr.title}`;
+
+            if(true) {
+                __el14.appendChild(__el15);
+            }
+            
+            if(true) {
+                __el2.appendChild(__el14);
+            }
+            const __el17 = document.createElement('div');
+__el17.__rawAttributes ||= {}
+this.setElementAttribute(__el17, 'class', `suffix`);
+
+const __el18 = document.createElement('span');
+__el18.__rawAttributes ||= {}
+__el18.innerHTML = `${this.state.suffix}`;
+
+            if(true) {
+                __el17.appendChild(__el18);
+            }
+            
+            if(this.state.suffix) {
+                __el2.appendChild(__el17);
             }
             
             if(true) {
@@ -323,55 +416,69 @@ __el10.innerHTML = `${this.state.pr.title}`;
               break;
             
             case 1:
-              __el4.innerHTML = `#${this.state.pr.number} by ${this.state.pr.user.login}`
+              __el5.innerHTML = `${this.state.pr.base.repo.name}`
               break;
             
             case 2:
+              __el7.innerHTML = `${this.state.author}`
+              break;
+            
+            case 3:
               
-                    for(const __el6__key of Object.keys(__el6_elements)) {
-                        if(!this.state.reviewers[__el6__key]) {
-                            __el6_elements[__el6__key].__el7.remove();
+                            if(this.state.hasReviewers) {
+                                __el8.appendChild(__el10);
+                            } else {
+                                __el10.remove();
+                            }
+                        
+              break;
+            
+            case 4:
+              
+                    for(const __el11__key of Object.keys(__el11_elements)) {
+                        if(!this.state.reviewers[__el11__key]) {
+                            __el11_elements[__el11__key].__el12.remove();
 
-                            delete __el6_elements[__el6__key];
+                            delete __el11_elements[__el11__key];
                         }
                     }
               break;
             
-            case 3:
-              for(const __el6__key of Object.keys(__el6_elements)) {const item = this.state.reviewers[__el6__key];
-this.setElementAttribute(__el6_elements[__el6__key].__el7, 'class', `reviewer ${item.approved}`);
-}
-              break;
-            
-            case 4:
-              for(const __el6__key of Object.keys(__el6_elements)) {const item = this.state.reviewers[__el6__key];
-__el6_elements[__el6__key].__el8.innerHTML = `${item.name}`
-}
-              break;
-            
             case 5:
+              for(const __el11__key of Object.keys(__el11_elements)) {const item = this.state.reviewers[__el11__key];
+this.setElementAttribute(__el11_elements[__el11__key].__el12, 'class', `reviewer ${item.approved}`);
+}
+              break;
+            
+            case 6:
+              for(const __el11__key of Object.keys(__el11_elements)) {const item = this.state.reviewers[__el11__key];
+__el11_elements[__el11__key].__el13.innerHTML = `${item.name}`
+}
+              break;
+            
+            case 7:
               
-                        for(const __el6__key of Object.keys(this.state.reviewers)) {
-                            if(!__el6_elements[__el6__key]) {
-                                const key = __el6__key;
-                                const item = this.state.reviewers[__el6__key];
-                                __el6_elements[__el6__key] = {};
-                                const __el7 = document.createElement('span');
-__el6_elements[__el6__key].__el7 = __el7;
-__el6_elements[__el6__key].__el7.__rawAttributes ||= {}
-this.setElementAttribute(__el6_elements[__el6__key].__el7, 'class', `reviewer ${item.approved}`);
+                        for(const __el11__key of Object.keys(this.state.reviewers)) {
+                            if(!__el11_elements[__el11__key]) {
+                                const key = __el11__key;
+                                const item = this.state.reviewers[__el11__key];
+                                __el11_elements[__el11__key] = {};
+                                const __el12 = document.createElement('span');
+__el11_elements[__el11__key].__el12 = __el12;
+__el11_elements[__el11__key].__el12.__rawAttributes ||= {}
+this.setElementAttribute(__el11_elements[__el11__key].__el12, 'class', `reviewer ${item.approved}`);
 
-const __el8 = document.createElement('span');
-__el6_elements[__el6__key].__el8 = __el8;
-__el6_elements[__el6__key].__el8.__rawAttributes ||= {}
-__el8.innerHTML = `${item.name}`;
+const __el13 = document.createElement('span');
+__el11_elements[__el11__key].__el13 = __el13;
+__el11_elements[__el11__key].__el13.__rawAttributes ||= {}
+__el13.innerHTML = `${item.name}`;
 
             if(true) {
-                __el7.appendChild(__el6_elements[__el6__key].__el8);
+                __el12.appendChild(__el11_elements[__el11__key].__el13);
             }
             
             if(true) {
-                __el5.appendChild(__el6_elements[__el6__key].__el7);
+                __el10.appendChild(__el11_elements[__el11__key].__el12);
             }
             
 
@@ -380,8 +487,22 @@ __el8.innerHTML = `${item.name}`;
                         }
               break;
             
-            case 6:
-              __el10.innerHTML = `${this.state.pr.title}`
+            case 8:
+              __el15.innerHTML = `${this.state.pr.title}`
+              break;
+            
+            case 9:
+              
+                            if(this.state.suffix) {
+                                __el2.appendChild(__el17);
+                            } else {
+                                __el17.remove();
+                            }
+                        
+              break;
+            
+            case 10:
+              __el18.innerHTML = `${this.state.suffix}`
               break;
             
             default:
@@ -440,16 +561,24 @@ __el8.innerHTML = `${item.name}`;
     triggerRenders(key) {
       switch(key) {
         
-        case 'this.state.pr':
-           this.render([1,1,6]);
-           break;
-        
-        case 'item.approved':
-           this.render([3]);
+        case 'this.state.author':
+           this.render([2]);
            break;
         
         case 'this.state.reviewers':
-           this.render([2,3,4,5]);
+           this.render([4,5,6,7]);
+           break;
+        
+        case 'item.approved':
+           this.render([5]);
+           break;
+        
+        case 'this.state.hasReviewers':
+           this.render([3]);
+           break;
+        
+        case 'this.state.suffix':
+           this.render([9,10]);
            break;
         
         case 'this.state.link':
@@ -457,7 +586,11 @@ __el8.innerHTML = `${item.name}`;
            break;
         
         case 'item.name':
-           this.render([4]);
+           this.render([6]);
+           break;
+        
+        case 'this.state.pr':
+           this.render([1,8]);
            break;
         
         default:
@@ -481,7 +614,7 @@ __el8.innerHTML = `${item.name}`;
     }
     
     static get observedAttributes() {
-      return []
+      return ['review']
     }
 }
 
