@@ -122,6 +122,9 @@ window.localStorage.setItem('token', this.refs.token.value)
 this.setState({
 token: this.refs.token.value,
 })
+window.localStorage.removeItem('user')
+window.localStorage.removeItem('pulls')
+window.localStorage.removeItem('merged')
 }
 
 function remove(index) {
@@ -139,6 +142,8 @@ saveRepos()
 
 const saveRepos = () => {
 window.localStorage.setItem('repos', JSON.stringify(this.state.repos))
+window.localStorage.removeItem('pulls')
+window.localStorage.removeItem('merged')
 }
 
 
@@ -432,16 +437,16 @@ __el13.innerHTML = `(remove)`;
     triggerRenders(key) {
       switch(key) {
         
+        case 'this.state.token':
+           this.render([0]);
+           break;
+        
         case 'this.state.repos':
            this.render([1,2,3]);
            break;
         
         case 'item':
            this.render([2]);
-           break;
-        
-        case 'this.state.token':
-           this.render([0]);
            break;
         
         default:

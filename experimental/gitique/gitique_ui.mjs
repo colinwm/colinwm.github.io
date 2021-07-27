@@ -2,6 +2,7 @@ import { getUser, getPulls, getMerged } from './github.mjs'
 import './settings_ui.mjs'
 import './pr_row.mjs'
 
+
 class GitiqueUi extends HTMLElement {
     constructor() {
           super();
@@ -565,10 +566,6 @@ this.setElementAttribute(__el18_elements[__el18__key].__el19, 'pr', item);
            this.render([6,7,8]);
            break;
         
-        case 'this.state.otherMerged':
-           this.render([9,10,11]);
-           break;
-        
         case 'this.state.reviews':
            this.render([3,4,5]);
            break;
@@ -579,6 +576,10 @@ this.setElementAttribute(__el18_elements[__el18__key].__el19, 'pr', item);
         
         case 'this.state.pulls':
            this.render([0,1,2]);
+           break;
+        
+        case 'this.state.otherMerged':
+           this.render([9,10,11]);
            break;
         
         default:
