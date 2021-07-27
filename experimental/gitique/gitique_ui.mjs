@@ -2,7 +2,6 @@ import { getUser, getPulls, getMerged } from './github.mjs'
 import './settings_ui.mjs'
 import './pr_row.mjs'
 
-
 class GitiqueUi extends HTMLElement {
     constructor() {
           super();
