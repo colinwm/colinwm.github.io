@@ -1,5 +1,5 @@
 import { getReviewState } from './github.mjs'
- 
+
 
 class PrRow extends HTMLElement {
     constructor() {
@@ -227,6 +227,7 @@ return "COMMENTED"
 
       const __el0 = document.createElement('a');
 __el0.__rawAttributes ||= {}
+this.setElementAttribute(__el0, 'target', `_blank`);
 this.setElementAttribute(__el0, 'class', `invisible`);
 this.setElementAttribute(__el0, 'href', this.state.link);
 
@@ -443,12 +444,12 @@ __el8.innerHTML = `${item.name}`;
            this.render([1,1,6]);
            break;
         
-        case 'this.state.reviewers':
-           this.render([2,3,4,5]);
-           break;
-        
         case 'item.approved':
            this.render([3]);
+           break;
+        
+        case 'this.state.reviewers':
+           this.render([2,3,4,5]);
            break;
         
         case 'this.state.link':
